@@ -114,7 +114,9 @@ class CheatEngine:
 
             rule: Rule = self._rules.get(move.hash())
             if not rule:
-                raise InvalidMoveConfiguration(type(move), f'Cannot find configuration for {type(move)} move type. Have you configured the cheat engine correclty?. Available types: {self._rules}')
+                print(f"Player {move.player_id} is attempting to send an unrecognized move. Perhaps attempting to cheat?")
+                self._cast_player_cheating_vote(Vote(move=move, value=is_valid_move, accuser_id=self._current_player_id, suspect_id=move.player_id))
+                return
 
             is_valid_move, msg = rule.evalute(move)
             if not is_valid_move:
